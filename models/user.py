@@ -1,6 +1,6 @@
 from mongoengine import *
 
-class Users(Document):
+class User(Document):
     name = StringField()
     email = StringField()
     password = StringField()
