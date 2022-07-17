@@ -7,4 +7,5 @@ class Users(Document):
     def to_json(self):
         return {"id": str(self.id),
                 "name": self.name,
-                "email": self.email}
+                "email": self.email,
+                "password": self.password}

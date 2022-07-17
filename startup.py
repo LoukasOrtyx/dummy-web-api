@@ -15,6 +15,7 @@ base_bp = Blueprint('api', __name__, url_prefix='/api')
 api = Api(base_bp, version='1.0', title='TodoMVC API',
 	description='A simple TodoMVC API'
 )
+app.config.from_object(config_dict)
 api.add_namespace(hello_namespace)
 base_bp.register_blueprint(users_bp)
 app.register_blueprint(base_bp)
