@@ -85,11 +85,11 @@ class UserController(Resource):
 
 @api.route('/login')
 class LoginController(Resource):
-    @api.doc('Login an user')
     @api.expect(_login)
+    @api.doc('Login an user')
     @api.response(HTTPStatus.NOT_FOUND, 'User not found.')
     @api.response(HTTPStatus.FORBIDDEN, 'Wrong password.')
-    @api.response(HTTPStatus.OK, "User model", model=_user, header=auth_header)
+    @api.response(HTTPStatus.OK, "User model", model=_user, headers=auth_header)
     def post(self):
         payload = request.json
         user = User.objects(name=payload['email']).first()
