@@ -1,7 +1,7 @@
 # Introduction
 Dummy-Web-API is a simple Web API done in Flask with MongoDB and JWT Authentication. Its goal is to
-introduce to frontend developers basic API functionalities and to challenge myself to learn new frameworks
-and tools. Any feature you wish to see, just ask and I'll implement it eventually.
+introduce to frontend developers basic API functionalities and to challenge myself to learn new 
+frameworks and tools. Any feature you wish to see, just ask and I'll implement it eventually.
 
 # Requirements
 - Python 3.10.4 or above;
@@ -9,7 +9,8 @@ and tools. Any feature you wish to see, just ask and I'll implement it eventuall
 - VS Code.
 
 # Getting Started Locally:
-Create a ```config.yaml``` and place it in the project root folder:
+Run ```pip install -r requirements.txt``` to download the required packages, then create a 
+```config.yaml``` and place it in the project root folder:
 ```yaml
 database:
   url: "{mongo local connection url}"
