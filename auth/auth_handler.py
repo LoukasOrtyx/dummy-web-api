@@ -24,9 +24,9 @@ def token_required(f):
         if 'Authorization' in request.headers:
             token = request.headers['Authorization']
         if not token:
-            return jsonify({
+            return make_response(jsonify({
                 'message' : 'Token is missing!'
-            }), HTTPStatus.UNAUTHORIZED
+            }), HTTPStatus.UNAUTHORIZED)
         try:
             data = jwt.decode(
                 token.split(' ')[-1], 
