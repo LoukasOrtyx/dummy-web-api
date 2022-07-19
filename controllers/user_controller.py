@@ -2,6 +2,8 @@ from http.client import NO_CONTENT
 import bcrypt
 from http import HTTPStatus
 import sys
+
+from flask_cors import cross_origin
 from models.user import User
 from flask_restx import Resource
 from docs.user_dto import UserDto
@@ -27,6 +29,7 @@ def hash_pwd(pwd):
     return bcrypt.hashpw(byte_pwd, mySalt)
 
 @api.route('')
+@cross_origin()
 class UserController(Resource):
     @api.expect(req_header, name_parser)
     @api.doc('Get an user by its name', params={'name': 'The name of the user'})
@@ -84,6 +87,7 @@ class UserController(Resource):
         return make_response(jsonify(user.to_json()), {"Authorization": f'Bearer {token}'})
 
 @api.route('/login')
+@cross_origin()
 class LoginController(Resource):
     @api.expect(_login)
     @api.doc('Login an user')

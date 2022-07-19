@@ -4,6 +4,7 @@ from pathlib import Path
 from flask_restx import Api
 from flask import Flask, Blueprint
 from utils.yaml_reader import read_yaml
+from flask_cors import CORS, cross_origin
 from controllers.user_controller import api as user_ns
 
 config_dict = read_yaml(Path('config.yaml'))
@@ -16,6 +17,8 @@ api = Api(base_bp, version='1.0', title='Dummy Web API',
 api.add_namespace(user_ns, path='/users')
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.register_blueprint(base_bp)
 
 if __name__ == '__main__':
