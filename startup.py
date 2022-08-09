@@ -1,10 +1,10 @@
 import mongoengine
 
 from pathlib import Path
+from flask_cors import CORS
 from flask_restx import Api
 from flask import Flask, Blueprint
 from utils.yaml_reader import read_yaml
-from flask_cors import CORS, cross_origin
 from controllers.user_controller import api as user_ns
 
 config_dict = read_yaml(Path('config.yaml'))

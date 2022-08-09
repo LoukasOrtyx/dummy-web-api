@@ -38,7 +38,7 @@ class UserController(Resource):
         name = request.args.get('name')
         user = User.objects(name=name).first()
         if not user:
-            make_response("User was not found.", HTTPStatus.NOT_FOUND)
+            return make_response("User was not found.", HTTPStatus.NOT_FOUND)
         return make_response(jsonify(user.to_json()), HTTPStatus.OK)
 
     @api.expect(req_header, _user)
@@ -51,7 +51,7 @@ class UserController(Resource):
         name = payload["name"]
         user = User.objects(name=name).first()
         if not user:
-            make_response("User was not found.", HTTPStatus.NOT_FOUND)
+            return make_response("User was not found.", HTTPStatus.NOT_FOUND)
         payload["id"] = user.id
         user.update(**payload)
         return make_response("", HTTPStatus.NO_CONTENT)
@@ -65,7 +65,7 @@ class UserController(Resource):
         payload = request.json
         user = User.objects(name=payload['name']).first()
         if not user:
-            make_response("User was not found.", HTTPStatus.NOT_FOUND)
+            return make_response("User was not found.", HTTPStatus.NOT_FOUND)
         user.delete()
         return make_response("", HTTPStatus.NO_CONTENT)
 
@@ -77,7 +77,7 @@ class UserController(Resource):
         payload = request.json
         user = User.objects(name=payload['name']).first()
         if user:
-            make_response("User already exists.", HTTPStatus.CONFLICT)
+            return make_response("User already exists.", HTTPStatus.CONFLICT)
         payload['password'] = hash_pwd(payload['password'])
         user = User(**payload)
         user.save()
@@ -93,9 +93,9 @@ class LoginController(Resource):
     @api.response(HTTPStatus.OK, "User model", model=_user, headers=auth_header)
     def post(self):
         payload = request.json
-        user = User.objects(name=payload['email']).first()
+        user = User.objects(email=payload['email']).first()
         if not user:
-            make_response('User not found.', HTTPStatus.NOT_FOUND)
+            return make_response('User not found.', HTTPStatus.NOT_FOUND)
         pwd = payload['password'].encode('utf-8')
         if not bcrypt.checkpw(pwd, user.password.encode('utf-8')):
             make_response('Wrong password', HTTPStatus.FORBIDDEN)
