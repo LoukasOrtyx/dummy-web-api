@@ -98,6 +98,6 @@ class LoginController(Resource):
             return make_response('User not found.', HTTPStatus.NOT_FOUND)
         pwd = payload['password'].encode('utf-8')
         if not bcrypt.checkpw(pwd, user.password.encode('utf-8')):
-            make_response('Wrong password', HTTPStatus.FORBIDDEN)
+            return make_response('Wrong password', HTTPStatus.FORBIDDEN)
         token = set_token(user)
         return make_response(jsonify(user.to_json()), {'Authorization': f'Bearer {token}'})
