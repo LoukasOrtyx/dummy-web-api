@@ -1,7 +1,5 @@
-from http.client import NO_CONTENT
 import bcrypt
 from http import HTTPStatus
-import sys
 
 from models.user import User
 from flask_restx import Resource
@@ -30,16 +28,19 @@ def hash_pwd(pwd):
 @api.route('')
 class UserController(Resource):
     @api.expect(req_header, name_parser)
-    @api.doc('Get an user by its name', params={'name': 'The name of the user'})
+    @api.doc('Get a list of users', params={'name': 'The name of the user (optinonal)'})
     @api.response(HTTPStatus.NOT_FOUND, 'User not found.')
-    @api.response(HTTPStatus.OK, "User model", model=_user)
+    @api.response(HTTPStatus.OK, "User model", model=[_user])
     @token_required
     def get(self):
-        name = request.args.get('name')
-        user = User.objects(name=name).first()
-        if not user:
-            return make_response("User was not found.", HTTPStatus.NOT_FOUND)
-        return make_response(jsonify(user.to_json()), HTTPStatus.OK)
+        name = request.args.get('name', None)
+        if name == None: 
+            users = [user.to_json() for user in User.objects.all()]
+        else:
+            users = [user.to_json() for user in User.objects(name=name).all()]
+        if not users:
+            return make_response("No user was not found.", HTTPStatus.NOT_FOUND)
+        return make_response(jsonify(users), HTTPStatus.OK)
 
     @api.expect(req_header, _user)
     @api.doc('Update an user')
