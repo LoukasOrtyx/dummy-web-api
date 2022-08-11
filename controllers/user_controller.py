@@ -28,7 +28,7 @@ def hash_pwd(pwd):
 @api.route('')
 class UserController(Resource):
     @api.expect(req_header, name_parser)
-    @api.doc('Get a list of users', params={'name': 'The name of the user (optinonal)'})
+    @api.doc('Get a list of users', params={'name': 'The name of the user (optional)'})
     @api.response(HTTPStatus.NOT_FOUND, 'User not found.')
     @api.response(HTTPStatus.OK, "User model", model=[_user])
     @token_required
